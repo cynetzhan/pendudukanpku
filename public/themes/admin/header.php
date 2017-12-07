@@ -2,7 +2,7 @@
 
 Assets::add_css(array(
     'bootstrap.css',
-    'bootstrap-responsive.css',
+    'bootflat.min.css',
 ));
 
 if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
@@ -23,7 +23,6 @@ if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
     <?php
     /* Modernizr is loaded before CSS so CSS can utilize its features */
     ?>
-	<script src="<?php echo Template::theme_url('js/modernizr-2.5.3.js'); ?>"></script>
 	<?php echo Assets::css(null, true); ?>
 </head>
 <body class="desktop">
@@ -34,6 +33,32 @@ if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
 	<noscript>
 		<p>Javascript is required to use Bonfire's admin.</p>
 	</noscript>
+   <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <?= anchor('/', html_escape($this->settings_lib->item('site.title')), 'class="navbar-brand"'); ?>
+     </div>
+     <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="fa fa-user"></span> Profil</a>
+         <ul class="dropdown-menu">
+          <li><a href="<?php echo site_url(SITE_AREA . '/settings/users/edit'); ?>"><?php echo lang('bf_user_settings'); ?></a></li>
+          <li><a href="<?php echo site_url('logout'); ?>"><?php echo lang('bf_action_logout'); ?></a></li>
+         </ul>
+        </li>
+      </ul>
+     </div>
+    </div>
+   </nav>
+   <?php /*
     <div class="navbar navbar-static-top navbar-inverse" id="topbar" >
         <div class="navbar-inner">
             <div class="container-fluid">
@@ -43,7 +68,7 @@ if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
                     <span class="icon-bar"></span>
                 </a>
                 <?php
-                echo anchor('/', html_escape($this->settings_lib->item('site.title')), 'class="brand"');
+                echo anchor('/', html_escape($this->settings_lib->item('site.title')), 'class="navbar-brand"');
                 if (isset($shortcut_data) && is_array($shortcut_data['shortcuts'])
                     && is_array($shortcut_data['shortcut_keys']) && count($shortcut_data['shortcut_keys'])
                    ) :
@@ -81,7 +106,7 @@ if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
                                 ?>
                             </a>
                             <?php
-                            /* Change **light** to **dark** to match colors */
+                            /* Change **light** to **dark** to match colors 
                             ?>
                             <a class="btn dropdown-toggle light" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                             <ul class="dropdown-menu pull-right toolbar-profile">
@@ -120,3 +145,4 @@ if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
            </div>
        </div>
    </div>
+*/ ?>

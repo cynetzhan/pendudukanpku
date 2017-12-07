@@ -1,3 +1,8 @@
+<style>
+ .lang-item{border: 1px solid #37bc9b;
+    padding: 5px;
+    margin: 2px 5px; display:inline-block}
+</style>
 <div class="well">
     <?php echo form_open(current_url(), 'class="form-inline"'); ?>
         <label for='trans_lang'><?php e(lang('translate_current_lang')); ?></label>
@@ -29,7 +34,7 @@
         endif;
         ++$cnt;
         ?>
-        <a class='span4' href='<?php echo "{$linkUrl}/{$file}"; ?>'><?php e($file); ?></a>
+        <a class='lang-item' href='<?php echo "{$linkUrl}/{$file}"; ?>'><?php e($file); ?></a>
         <?php
         if ($cnt > $brk) :
         ?>
@@ -59,7 +64,7 @@
             endif;
             $cnt++;
         ?>
-        <a class='span4' href="<?php echo "{$linkUrl}/{$file}"; ?>"><?php e($file); ?></a>
+        <a class='lang-item' href="<?php echo "{$linkUrl}/{$file}"; ?>"><?php e($file); ?></a>
         <?php if ($cnt > $brk) : ?>
     </div>
     <?php

@@ -103,10 +103,12 @@ function syncSidebar() {
 }
 
 /* Basemap Layers */
-var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
-		maxZoom: 19,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-	});
+var osm = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    		maxZoom: 20,
+    		subdomains: ['a','b','c'],
+    		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>"'
+    	});
+
 var googleMap = L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
     maxZoom: 20,
     subdomains: ['mt0','mt1','mt2','mt3'],
@@ -133,17 +135,17 @@ var highlightStyle = {
 };
 
 var kecamatanColors = {
-	"Bukit Raya": "rgba(210,199,72,1.0)",
-	"Lima Puluh": "rgba(130,233,209,1.0)",
-	"Marpoyan Damai": "rgba(46,187,230,1.0)",
-	"Payung Sekaki": "rgba(132,116,220,1.0)",
-	"Pekanbaru": "rgba(218,63,63,1.0)",
-	"Rumbai": "rgba(107,214,139,1.0)",
-	"Rumbai Pesisir": "rgba(162,218,72,1.0)",
-	"Sail": "rgba(221,112,212,1.0)",
-	"Senapelan": "rgba(121,151,219,1.0)",
-	"Sukajadi": "rgba(204,156,117,1.0)",
-	"Tampan": "rgba(89,222,62,1.0)",
+	"Bukit Raya": "rgba(209,229,240,1.0)",
+	"Lima Puluh": "rgba(214,96,77,1.0)",
+	"Marpoyan Damai": "rgba(244,165,130,1.0)",
+	"Payung Sekaki": "rgba(253,219,199,1.0)",
+	"Pekanbaru": "rgba(147,147,147,1.0)",
+	"Rumbai": "rgba(178,24,43,1.0)",
+	"Rumbai Pesisir": "rgba(146,197,222,1.0)",
+	"Sail": "rgba(103,0,31,1.0)",
+	"Senapelan": "rgba(67,147,195,1.0)",
+	"Sukajadi": "rgba(33,102,172,1.0)",
+	"Tampan": "rgba(5,48,97,1.0)",
 	"Tenayan Raya": "rgba(159,78,209,1.0)"
 };
 
@@ -152,16 +154,16 @@ var kecamatanColors = {
 function style_kelurahan(feature) {
 	return {
 		opacity: 1,
-		color: 'rgba(0,0,0,0.1)',
+		color: 'rgba(0,0,0,.7)',
 		dashArray: '',
 		lineCap: 'butt',
 		lineJoin: 'miter',
 		weight: 1.0,
-		fillOpacity: 0.2,
+		fillOpacity: .3,
 		fillColor: kecamatanColors[feature.properties['Kecamatan']]
 	};
 }
-
+var daerah = ''
 var pekanbaru = L.geoJson(null, {
 		style: style_kelurahan,
 		onEachFeature: function (feature, layer) {
@@ -171,15 +173,27 @@ var pekanbaru = L.geoJson(null, {
 				id: L.stamp(layer),
 				bounds: layer.getBounds()
 			});
+            
+            
 			//tampilkan modal kalau kelurahan di click
 			if (feature.properties) {
 				var content = "<table class='table table-striped table-bordered table-condensed'>"
 					 + "<tr><th>Kelurahan</th><td>" + feature.properties.Kelurahan + "</td></tr>"
 					 + "<tr><th>Kecamatan</th><td>" + feature.properties.Kecamatan + "</td></tr>"
 					 + "<tr><th>Luas</th><td>" + feature.properties.luas_ha + " ha</td></tr>"
+                     + "<tr><th colspan='2'>Foto Kecamatan<br><div id='imgcamat'>Mohon Tunggu...</div></th></tr>"
 					 + "<table>";
 				layer.on({
 					click: function (e) {
+                        
+                        $.getJSON('../home/apicamat',{'kecamatan':feature.properties.Kecamatan}, function(res) {
+                            daerah = res; 
+                            console.log(daerah.file_foto)
+                            if(daerah.file_foto != '')
+                                $("div#imgcamat").html("<img src='data/images/"+ daerah.file_foto +"' alt='Foto Kecamatan' class='img-responsive'/>");
+                            else
+                                $("div#imgcamat").html("Belum ada foto");
+                        });
 						//untuk sementara, judulnya digunakan Kelurahan saja, sesuaikan dengan JSON
 						$("#feature-title").html(feature.properties.Kelurahan);
 						//timpa keterangan dengan content kita
@@ -190,6 +204,7 @@ var pekanbaru = L.geoJson(null, {
 						$("#span_id_tps").html(lat + " , " + lng);
 						$("#span_id_kec").html(feature.properties.Kecamatan)
 						$("#span_id_kel").html(feature.properties.Kelurahan)
+                        
 						//tampilkan
 						$("#featureModal").modal("show");
 
@@ -205,9 +220,9 @@ $.getJSON("../data/kelurahan.php", function (data) {
 
 
 map = L.map("map", {
-		zoom: 10,
-		center: [0.54, 101.5],
-		layers: [cartoLight, pekanbaru],
+		zoom: 11.5,
+		center: [0.555, 101.38],
+		layers: [osm, pekanbaru],
 		zoomControl: false,
 		attributionControl: false
 	});
@@ -253,16 +268,6 @@ function updateAttribution(e) {
 map.on("layeradd", updateAttribution);
 map.on("layerremove", updateAttribution);
 
-var attributionControl = L.control({
-		position: "bottomright"
-	});
-attributionControl.onAdd = function (map) {
-	var div = L.DomUtil.create("div", "leaflet-control-attribution");
-	div.innerHTML = "<span class='hidden-xs'>Developed by <a href='http://bryanmcbride.com'>bryanmcbride.com</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
-	return div;
-};
-map.addControl(attributionControl);
-
 var zoomControl = L.control.zoom({
 		position: "bottomright"
 	}).addTo(map);
@@ -298,7 +303,18 @@ var locateControl = L.control.locate({
 			timeout: 10000
 		}
 	}).addTo(map);
-
+L.Control.Chart = L.Control.extend({
+    onAdd: function(map){
+        var divchart = L.DomUtil.create('div','chartholder');
+        divchart.style = "width:30vw;height:30vh;background-color:#fff";
+        divchart.innerHTML = "<canvas id='chartaja'></canvas>";
+        return divchart;
+    }
+});
+L.control.chart = function(opts){
+    return new L.Control.Chart(opts);
+}
+L.control.chart({position: 'bottomleft'}).addTo(map);
 /* Larger screens get expanded layer control and visible sidebar */
 if (document.body.clientWidth <= 767) {
 	var isCollapsed = true;
@@ -307,7 +323,7 @@ if (document.body.clientWidth <= 767) {
 }
 
 var baseLayers = {
-	"OpenStreetMap": cartoLight,
+	"OpenStreetMap": osm,
 	"Google Maps": googleMap
 };
 
@@ -344,7 +360,7 @@ $("#featureModal").on("hidden.bs.modal", function (e) {
 $(document).one("ajaxStop", function () {
 	$("#loading").hide();
 	sizeLayerControl();
-	map.fitBounds(pekanbaru.getBounds());
+	//map.fitBounds(pekanbaru.getBounds());
 	featureList = new List("features", {
 			valueNames: ["feature-name"]
 		});

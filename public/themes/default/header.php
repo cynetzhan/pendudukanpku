@@ -5,7 +5,8 @@
 $inline  = '$(".dropdown-toggle").dropdown();';
 $inline .= '$(".tooltips").tooltip();';
 Assets::add_js($inline, 'inline');
-
+Assets::add_css(array('bootstrap.min.css', 'bootflat.min.css','site.css','font-awesome.min.css'));
+Assets::add_js(array('jquery.min.js','bootstrap.min.js'));
 ?>
 <!doctype html>
 <head>

@@ -176,6 +176,8 @@ class Content extends Admin_Controller
         // Make sure we only pass in the fields we want
         
         $data = $this->kecamatan_model->prep_data($this->input->post());
+        $kecamatan = $data['nama_kecamatan'];
+        $file_lama = $data['file_foto'];
 
         // Additional handling for default values should be added below,
         // or in the model's prep_data() method
@@ -191,6 +193,37 @@ class Content extends Admin_Controller
         } elseif ($type == 'update') {
             $return = $this->kecamatan_model->update($id, $data);
         }
+        
+        if($type == 'insert'){
+         $id=$this->db->insert_id();
+        }
+        
+         $data = array();
+         $config['upload_path']   = 'data/images/';
+         $config['allowed_types'] = 'gif|jpg|png|jpeg';
+         $config['max_size']      = 10240;
+         $config['file_name']     = "Kecamatan-".$kecamatan;
+         $this->load->library('upload', $config);
+        if($this->upload->data() != null){
+         
+         if ( ! $this->upload->do_upload('images') && ! $this->upload->data('is_image') ){
+           $error = array('error' => $this->upload->display_errors());
+           if($error['error'] == "You did not select a file to upload."){
+            //$this->flashMsg($this->upload->display_errors(),"","");
+            echo $this->upload->display_errors();
+           }
+           if($type != 'update'){
+            $data['file_foto'] = '';
+           }
+         } else {
+           if(file_exists($config['upload_path'].$file_lama)){
+            unlink($config['upload_path'].$file_lama);
+           }
+           $data['file_foto'] = $this->upload->data('file_name');
+           $this->kecamatan_model->update($id,$data);
+         }
+        }
+        
 
         return $return;
     }

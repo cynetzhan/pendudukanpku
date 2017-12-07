@@ -3,7 +3,7 @@
 $currentMethod = $this->router->fetch_method();
 
 $errorClass     = empty($errorClass) ? ' error' : $errorClass;
-$controlClass   = empty($controlClass) ? 'span4' : $controlClass;
+$controlClass   = empty($controlClass) ? 'span4' : $controlClass." form-control";
 $registerClass  = $currentMethod == 'register' ? ' required' : '';
 $editSettings   = $currentMethod == 'edit';
 
@@ -16,6 +16,13 @@ $defaultTimezone = isset($user->timezone) ? $user->timezone : strtoupper(setting
     <div class="controls">
         <input class="<?php echo $controlClass; ?>" type="text" id="email" name="email" value="<?php echo set_value('email', isset($user) ? $user->email : ''); ?>" />
         <span class="help-inline"><?php echo form_error('email'); ?></span>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="phone_num">Nomor Telepon</label>
+    <div class="controls">
+        <input class="<?php echo $controlClass; ?>" type="tel" id="phone_num" name="phone_num" value="<?php echo set_value('phone_num', isset($user) ? $user->phone_num : ''); ?>" />
+        <span class="help-inline"><?php echo form_error('phone_num'); ?></span>
     </div>
 </div>
 <div class="control-group<?php echo form_error('display_name') ? $errorClass : ''; ?>">

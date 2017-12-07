@@ -8,6 +8,9 @@ body {
 input[type="radio"], input[type="checkbox"] {
   margin: 0;
 }
+#mapcol.col-sm-12{
+    padding:0 !important;
+}
 #sidebar {
   display: block;
   width: 250px;
@@ -18,7 +21,7 @@ input[type="radio"], input[type="checkbox"] {
 #map {
   width: auto;
   height: 100%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  /*box-shadow: 0 0 10px rgba(0,0,0,0.5);*/
 }
 #loading {
   position: absolute;

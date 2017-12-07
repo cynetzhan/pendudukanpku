@@ -27,7 +27,7 @@ class Contexts
     /*
      * Templates and related strings for building the context menus
      */
-    protected static $templateContextNav  = "<ul class='{class}'{extra}>\n{menu}</ul>\n";
+    protected static $templateContextNav  = "<ul class='{class} nav-pills nav-stacked'{extra}>\n{menu}</ul>\n";
     protected static $templateContextMenu = "<li class='{parent_class}'><a href='{url}' id='{id}' class='{current_class}' title='{title}'{extra}>{text}</a>{content}</li>\n";
     protected static $templateMenu        = "<li><a {extra}href='{url}' title='{title}'>{display}</a>\n</li>\n";
     protected static $templateSubMenu     = "<li class='{submenu_class}'><a href='{url}'>{display}</a><ul class='{child_class}'>{view}</ul></li>\n";
@@ -49,7 +49,7 @@ class Contexts
     protected static $submenu_class = 'dropdown-submenu';
 
     /** @var string The class to apply to ul tags within li tags. */
-    protected static $child_class = 'dropdown-menu';
+    protected static $child_class = 'dropdown-menu dropdown-menu-right';
 
     /** @var string The id to apply to the outer ul tag. */
     protected static $outer_id = null;

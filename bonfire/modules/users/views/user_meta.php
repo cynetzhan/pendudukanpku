@@ -35,7 +35,7 @@ if (! empty($meta_fields)) :
 ?>
 <div class="control-group<?php echo form_error($field['name']) ? ' error' : ''; ?>">
     <label class="control-label" for="<?php echo $field['name']; ?>"><?php echo $field['label']; ?></label>
-    <div class="controls">
+    <div class="controls form-control">
         <?php
         echo form_checkbox(
             $field['form_detail']['settings'],
@@ -64,7 +64,7 @@ if (! empty($meta_fields)) :
             $defaultState,
             $defaultCountry,
             $field['name'],
-            'span6 chzn-select'
+            'span6 chzn-select form-control'
         );
         ?>
     </div>
@@ -84,7 +84,7 @@ if (! empty($meta_fields)) :
             set_value($field['name'], isset($user->{$field['name']}) ? $user->{$field['name']} : $defaultCountry),
             $defaultCountry,
             $field['name'],
-            'span6 chzn-select'
+            'span6 chzn-select form-control'
         );
         ?>
     </div>

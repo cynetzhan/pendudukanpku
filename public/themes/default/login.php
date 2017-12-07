@@ -1,6 +1,8 @@
-<?php echo theme_view('header'); ?>
+<?php echo theme_view('header');
+      echo theme_view('_sitenav');
+?>
 <style>body { background: #f5f5f5; }</style>
-<div class="container"><!-- Start of Main Container -->
+
     <?php
     echo isset($content) ? $content : Template::content();
 

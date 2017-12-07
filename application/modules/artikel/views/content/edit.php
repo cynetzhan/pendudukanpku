@@ -21,34 +21,34 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
         <fieldset>
             
 
-            <div class="control-group<?php echo form_error('judul_artikel') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('artikel_field_judul_artikel') . lang('bf_form_label_required'), 'judul_artikel', array('class' => 'control-label')); ?>
-                <div class='controls'>
-                    <input id='judul_artikel' type='text' required='required' name='judul_artikel' maxlength='35' value="<?php echo set_value('judul_artikel', isset($artikel->judul_artikel) ? $artikel->judul_artikel : ''); ?>" />
+            <div class="form-group<?php echo form_error('judul_artikel') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('artikel_field_judul_artikel') . lang('bf_form_label_required'), 'judul_artikel', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <input id='judul_artikel' class="form-control" type='text' required='required' name='judul_artikel' maxlength='35' value="<?php echo set_value('judul_artikel', isset($artikel->judul_artikel) ? $artikel->judul_artikel : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('judul_artikel'); ?></span>
                 </div>
             </div>
 
-            <div class="control-group<?php echo form_error('tgl_terbit_artikel') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('artikel_field_tgl_terbit_artikel'), 'tgl_terbit_artikel', array('class' => 'control-label')); ?>
-                <div class='controls'>
-                    <input id='tgl_terbit_artikel' type='text' name='tgl_terbit_artikel' maxlength='30' value="<?php echo set_value('tgl_terbit_artikel', isset($artikel->tgl_terbit_artikel) ? $artikel->tgl_terbit_artikel : ''); ?>" />
+            <div class="form-group<?php echo form_error('tgl_terbit_artikel') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('artikel_field_tgl_terbit_artikel'), 'tgl_terbit_artikel', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <input id='tgl_terbit_artikel' class="form-control" type='text' name='tgl_terbit_artikel' maxlength='30' value="<?php echo set_value('tgl_terbit_artikel', isset($artikel->tgl_terbit_artikel) ? $artikel->tgl_terbit_artikel : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('tgl_terbit_artikel'); ?></span>
                 </div>
             </div>
 
-            <div class="control-group<?php echo form_error('isi_artikel') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('artikel_field_isi_artikel'), 'isi_artikel', array('class' => 'control-label')); ?>
-                <div class='controls'>
-                    <?php echo form_textarea(array('name' => 'isi_artikel', 'id' => 'isi_artikel', 'rows' => '5', 'cols' => '80', 'value' => set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : ''))); ?>
+            <div class="form-group<?php echo form_error('isi_artikel') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('artikel_field_isi_artikel'), 'isi_artikel', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <?php echo form_textarea(array('name' => 'isi_artikel', 'class'=>"form-control", 'id' => 'isi_artikel', 'rows' => '5', 'cols' => '80', 'value' => set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : ''))); ?>
                     <span class='help-inline'><?php echo form_error('isi_artikel'); ?></span>
                 </div>
             </div>
 
-            <div class="control-group<?php echo form_error('kategori_artikel') ? ' error' : ''; ?>">
-                <?php echo form_label(lang('artikel_field_kategori_artikel'), 'kategori_artikel', array('class' => 'control-label')); ?>
-                <div class='controls'>
-                    <input id='kategori_artikel' type='text' name='kategori_artikel' maxlength='15' value="<?php echo set_value('kategori_artikel', isset($artikel->kategori_artikel) ? $artikel->kategori_artikel : ''); ?>" />
+            <div class="form-group<?php echo form_error('kategori_artikel') ? ' error' : ''; ?>">
+                <?php echo form_label(lang('artikel_field_kategori_artikel'), 'kategori_artikel', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <input id='kategori_artikel' class="form-control"type='text' name='kategori_artikel' maxlength='15' value="<?php echo set_value('kategori_artikel', isset($artikel->kategori_artikel) ? $artikel->kategori_artikel : ''); ?>" />
                     <span class='help-inline'><?php echo form_error('kategori_artikel'); ?></span>
                 </div>
             </div>

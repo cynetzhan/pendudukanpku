@@ -2107,13 +2107,13 @@
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		border-bottom: dotted 1px;
-		color: #23527c;
+		color: #15314e;
 		text-decoration: none;
 	}
 
 		a:hover {
-			border-bottom-color: #23527c;
-			color: #23522a !important;
+			border-bottom-color: #49c4ca;
+			color: #15314e !important;
 		}
 
 			a:hover strong {

@@ -65,7 +65,24 @@ class Home extends MX_Controller
 	{
 		$this->load->library('users/auth');
 		$this->set_current_user();
-
+  Assets::add_css(array('leaflet.css','MarkerCluster.css','MarkerCluster.Default.css','L.Control.Locate.css','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css','app.css'));
+  Assets::add_js(array('Chart.min.js','typeahead.bundle.min.js','handlebars.min.js','list.min.js','leaflet.js','leaflet.markercluster.js','L.Control.Locate.min.js','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js','app.js')); 
+  
+  $this->load->model('sarana/sarana_model');
+  $records = $this->sarana_model->find_all_joined();
+  $sarana=array();
+  foreach($records as $record){
+   $data = array(hitungBobot($record->krit1_sarana,1),
+             hitungBobot($record->krit2_sarana,2),
+             hitungBobot($record->krit3_sarana,3),
+             hitungBobot($record->krit4_sarana,4),
+             hitungBobot($record->krit5_sarana,5)
+   );
+   $hasilBobot = hitungHasil($data);
+   $sarana[$record->nama_kecamatan] = $hasilBobot;
+  }
+  Assets::add_js("var ctx=document.getElementById('chartaja').getContext('2d');window.myBar=new Chart(ctx,{type:'bar',data:barChartData,options:{responsive:true,legend:{display:false,position:'top',},title:{display:true,text:'Kondisi Sarana'}}});", 'inline');
+  Template::set('sarana',$sarana);
 		Template::render();
 	}//end index()
  
@@ -73,8 +90,7 @@ class Home extends MX_Controller
  {
   $this->load->library('users/auth');
   $this->set_current_user(); 
-  Assets::add_css(array('leaflet.css','MarkerCluster.css','MarkerCluster.Default.css','L.Control.Locate.css','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css','app.css'));
-  Assets::add_js(array('typeahead.bundle.min.js','handlebars.min.js','list.min.js','leaflet.js','leaflet.markercluster.js','L.Control.Locate.min.js','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js','app.js'));  
+   
   Template::render();
  }
  
@@ -88,6 +104,13 @@ class Home extends MX_Controller
   Template::set('profil',$profil);
   Template::set('prolist',$prolist);
   Template::render();
+ }
+ 
+ public function apicamat(){
+  $nama = $this->input->get('kecamatan');
+  $this->load->model('kecamatan/kecamatan_model');
+  $hasil = $this->kecamatan_model->find_by('nama_kecamatan',$nama);
+  echo json_encode($hasil);
  }
  
 

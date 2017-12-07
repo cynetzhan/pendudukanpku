@@ -88,6 +88,11 @@ class User_model extends BF_Model
             'label' => 'lang:us_role',
             'rules' => 'trim|max_length[2]|is_numeric',
         ),
+        array(
+            'field' =>  'phone_num',
+            'label' =>  'Nomor Telepon/Seluler',
+            'rules' =>  'is_numeric|max_length[15]'
+        )
     );
 
     /** @var Array Additional validation rules only used on insert. */
@@ -126,6 +131,7 @@ class User_model extends BF_Model
         array('name' => 'active'),
         array('name' => 'activate_hash'),
         array('name' => 'force_password_reset'),
+        array('name' => 'phone_num')
     );
 
     //--------------------------------------------------------------------------
