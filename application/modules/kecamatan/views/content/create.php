@@ -31,7 +31,8 @@ $id = isset($kecamatan->id_kecamatan) ? $kecamatan->id_kecamatan : '';
             <div class="form-group">
                 <?php echo form_label("File Foto", 'file_foto', array('class' => 'control-label col-sm-4')); ?>
                 <div class='controls col-sm-8'>
-                    <input id='file_foto' type='file' name='file_foto' class="form-control" />
+                    <input type='hidden' name='file_foto' />
+                    <input id='images' type='file' name='images' class="form-control" />
                     <span class='help-inline'><?php echo form_error('file_foto'); ?></span>
                 </div>
             </div>

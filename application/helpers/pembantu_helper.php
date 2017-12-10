@@ -6,7 +6,7 @@ function hitungBobot($persen, $krit){
   case 1:
    if($persen > 70){
      $ret = 50;
-    } else if($persen > 50) {
+    } else if($persen >= 50) {
      $ret = 30;
     } else if($persen > 0){
      $ret = 20;
@@ -16,7 +16,7 @@ function hitungBobot($persen, $krit){
   case 2:
    if($persen > 50){
      $ret = 50;
-    } else if($persen > 25) {
+    } else if($persen >= 25) {
      $ret = 30;
     } else if($persen > 0){
      $ret = 20;
@@ -26,7 +26,7 @@ function hitungBobot($persen, $krit){
   case 3:
    if($persen > 60){
      $ret = 20;
-    } else if($persen > 30) {
+    } else if($persen >= 30) {
      $ret = 30;
     } else if($persen > 0){
      $ret = 50;
@@ -36,7 +36,7 @@ function hitungBobot($persen, $krit){
   case 4:
    if($persen > 60){
      $ret = 20;
-    } else if($persen > 30) {
+    } else if($persen >= 30) {
      $ret = 30;
     } else if($persen > 0){
      $ret = 50;
@@ -46,7 +46,7 @@ function hitungBobot($persen, $krit){
   case 5:
    if($persen > 70){
      $ret = 20;
-    } else if($persen > 50) {
+    } else if($persen >= 50) {
      $ret = 30;
     } else if($persen > 0){
      $ret = 50;

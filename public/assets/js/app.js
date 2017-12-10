@@ -101,6 +101,57 @@ function syncSidebar() {
 		order: "asc"
 	});
 }
+function ketCamat(skor){
+    if (skor > 30) {
+        return 'Tinggi'
+    } else if (skor >= 20) {
+        return 'Sedang'
+    } else if(skor > 0){
+        return 'Rendah'
+    } else {
+        return 'NA'
+    }
+}
+
+
+var styleSkorCamat = {
+    'Rendah': {
+        icon: L.icon({
+                iconUrl: 'assets/js/images/marker-icon-red.png',
+                iconSize: [25, 41],
+                popupAnchor: [-3, -10],
+                shadowUrl: 'assets/js/images/marker-shadow.png',
+                shadowSize: [20, 20],
+                shadowAnchor: [5,2]
+            })
+        },
+    'Sedang': {
+        icon: L.icon({
+                iconUrl: 'assets/js/images/marker-icon-cyan.png',
+                iconSize: [25, 41],
+                popupAnchor: [-3, -10],
+                shadowUrl: 'assets/js/images/marker-shadow.png',
+                shadowSize: [20, 20],
+                shadowAnchor: [5, 2]
+            })
+        },
+    'Tinggi': {
+        icon: L.icon({
+                iconUrl: 'assets/js/images/marker-icon-green.png',
+                iconSize: [25, 41],                
+                popupAnchor: [-3, -10],
+                shadowUrl: 'assets/js/images/marker-shadow.png',
+                shadowSize: [20, 20],
+                shadowAnchor: [5, 2]
+            })
+        },
+     'NA': {
+        stroke: false,
+        fillColor: "#aaaaaa",
+        fillOpacity: 1,
+        radius: 12
+        }
+}
 
 /* Basemap Layers */
 var osm = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -217,12 +268,21 @@ var pekanbaru = L.geoJson(null, {
 $.getJSON("../data/kelurahan.php", function (data) {
 	pekanbaru.addData(data);
 });
+camatGroup = L.layerGroup();
+camatkita = L.geoJson(null, {
+		onEachFeature: function (feature, layer) {
+			L.marker(layer.getBounds().getCenter(), styleSkorCamat[ketCamat(dataSkorCamat[feature.properties.Kecamatan].hasil)]).bindPopup("<strong>"+feature.properties.Kecamatan+"</strong><br>Skor: "+dataSkorCamat[feature.properties.Kecamatan].hasil+"").addTo(camatGroup);
+        }
+});
+$.getJSON("../data/kecamatan.php", function(data) {
+    camatkita.addData(data);
+});
 
 
 map = L.map("map", {
 		zoom: 11.5,
 		center: [0.555, 101.38],
-		layers: [osm, pekanbaru],
+		layers: [osm, pekanbaru, camatGroup],
 		zoomControl: false,
 		attributionControl: false
 	});

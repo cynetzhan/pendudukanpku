@@ -178,19 +178,21 @@ class Content extends Admin_Controller
         $data = $this->kecamatan_model->prep_data($this->input->post());
         $kecamatan = $data['nama_kecamatan'];
         $file_lama = $data['file_foto'];
-
+        
         // Additional handling for default values should be added below,
         // or in the model's prep_data() method
         
 
         $return = false;
         if ($type == 'insert') {
+            $data['file_foto'] = '';
             $id = $this->kecamatan_model->insert($data);
 
             if (is_numeric($id)) {
                 $return = $id;
             }
         } elseif ($type == 'update') {
+            $old_data = $this->kecamatan_model->find($id);
             $return = $this->kecamatan_model->update($id, $data);
         }
         
@@ -205,7 +207,6 @@ class Content extends Admin_Controller
          $config['file_name']     = "Kecamatan-".$kecamatan;
          $this->load->library('upload', $config);
         if($this->upload->data() != null){
-         
          if ( ! $this->upload->do_upload('images') && ! $this->upload->data('is_image') ){
            $error = array('error' => $this->upload->display_errors());
            if($error['error'] == "You did not select a file to upload."){
@@ -216,11 +217,11 @@ class Content extends Admin_Controller
             $data['file_foto'] = '';
            }
          } else {
+           $data['file_foto'] = $this->upload->data('file_name');
            if(file_exists($config['upload_path'].$file_lama)){
             unlink($config['upload_path'].$file_lama);
            }
-           $data['file_foto'] = $this->upload->data('file_name');
-           $this->kecamatan_model->update($id,$data);
+           $return = $this->kecamatan_model->update($id,$data);
          }
         }
         
