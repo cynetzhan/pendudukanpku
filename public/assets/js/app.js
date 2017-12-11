@@ -159,8 +159,8 @@ var osm = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     		subdomains: ['a','b','c'],
     		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>"'
     	});
-
-var googleMap = L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
+        
+var googleMap = L.tileLayer("https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
     maxZoom: 20,
     subdomains: ['mt0','mt1','mt2','mt3'],
     attribution: "Provided by Google Maps"
@@ -280,7 +280,7 @@ $.getJSON("../data/kecamatan.php", function(data) {
 
 
 map = L.map("map", {
-		zoom: 11.5,
+		zoom: 12,
 		center: [0.555, 101.38],
 		layers: [osm, pekanbaru, camatGroup],
 		zoomControl: false,

@@ -1,10 +1,11 @@
 <script>
 var dataSkorCamat = <?= json_encode($sarana) ?>;
+var kecamatanColors = <?= json_encode($warna) ?>;
 var barChartData = {
 	labels: <?= json_encode(array_keys($sarana)) ?>,
 	datasets: [{
 			label: 'Data Sarana',
-			backgroundColor: ["rgba(209,229,240,0.7)","rgba(214,96,77,0.7)","rgba(244,165,130,0.7)","rgba(253,219,199,0.7)","rgba(147,147,147,0.7)","rgba(178,24,43,0.7)","rgba(146,197,222,0.7)","rgba(103,0,31,0.7)","rgba(67,147,195,0.7)","rgba(33,102,172,0.7)","rgba(5,48,97,0.7)","rgba(159,78,209,0.7)"],
+			backgroundColor: [<?php $c=1; foreach($warna as $wn) { echo "'".hex2rgba($wn,0.7)."'"; if($c < count($warna)) {echo ","; $c++;} } ?>],
 			borderColor: 'rgba(0,0,0,.7)',
 			borderWidth: 1.6,
 			data: [<?php $c=1; foreach($sarana as $sr) { echo $sr['hasil']; if($c < count($sarana)) {echo ","; $c++;} } ?>]

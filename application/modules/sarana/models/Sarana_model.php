@@ -84,7 +84,7 @@ class Sarana_model extends BF_Model
     }
     
     public function find_all_joined(){
-     $this->db->select("bf_kecamatan.nama_kecamatan, bf_sarana.*");
+     $this->db->select("bf_kecamatan.nama_kecamatan, bf_kecamatan.warna_peta, bf_sarana.*");
      $this->db->where('bf_sarana.id_kecamatan = bf_kecamatan.id_kecamatan');
      return $this->db->get('bf_sarana, bf_kecamatan')->result();
     }

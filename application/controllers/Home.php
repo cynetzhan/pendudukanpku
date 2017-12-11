@@ -71,6 +71,7 @@ class Home extends MX_Controller
   $this->load->model('sarana/sarana_model');
   $records = $this->sarana_model->find_all_joined();
   $sarana=array();
+  $warna=array();
   foreach($records as $record){
    $data = array(hitungBobot($record->krit1_sarana,1),
              hitungBobot($record->krit2_sarana,2),
@@ -79,10 +80,12 @@ class Home extends MX_Controller
              hitungBobot($record->krit5_sarana,5)
    );
    $hasilBobot = hitungHasil($data);
+   $warna[$record->nama_kecamatan] = $record->warna_peta;
    $sarana[$record->nama_kecamatan] = $hasilBobot;
   }
   Assets::add_js("var ctx=document.getElementById('chartaja').getContext('2d');window.myBar=new Chart(ctx,{type:'bar',data:barChartData,options:{responsive:true,legend:{display:false,position:'top',},title:{display:true,text:'Kondisi Sarana'}}});", 'inline');
   Template::set('sarana',$sarana);
+  Template::set('warna', $warna);
 		Template::render();
 	}//end index()
  

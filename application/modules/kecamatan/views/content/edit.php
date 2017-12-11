@@ -35,6 +35,13 @@ $id = isset($kecamatan->id_kecamatan) ? $kecamatan->id_kecamatan : '';
                     <span class='help-inline'><?php echo form_error('file_foto'); ?></span>
                 </div>
             </div>
+            <div class="form-group">
+                <?php echo form_label("Warna Pada Peta", 'warna_peta', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <input type="color" name="warna_peta" class="form-control" value="<?php echo set_value('warna_peta', isset($kecamatan->warna_peta) ? $kecamatan->warna_peta : ''); ?>" />
+                    <span class='help-inline'><?php echo form_error('warna_peta'); ?></span>
+                </div>
+            </div>
         </fieldset>
         </div>
         <div class="row">
