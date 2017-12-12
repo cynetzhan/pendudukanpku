@@ -185,7 +185,7 @@ var highlightStyle = {
 	radius: 10
 };
 
-var kecamatanColors = {
+/* var kecamatanColors = {
 	"Bukit Raya": "rgba(209,229,240,1.0)",
 	"Lima Puluh": "rgba(214,96,77,1.0)",
 	"Marpoyan Damai": "rgba(244,165,130,1.0)",
@@ -199,7 +199,7 @@ var kecamatanColors = {
 	"Tampan": "rgba(5,48,97,1.0)",
 	"Tenayan Raya": "rgba(159,78,209,1.0)"
 };
-
+ */
 /** fungsi untuk style kelurahan dikategorikan ke kecamatan
  */
 function style_kelurahan(feature) {
@@ -236,10 +236,9 @@ var pekanbaru = L.geoJson(null, {
 					 + "<table>";
 				layer.on({
 					click: function (e) {
-                        
+                        console.log(pekanbaru.getLayerId(layer));
                         $.getJSON('../home/apicamat',{'kecamatan':feature.properties.Kecamatan}, function(res) {
                             daerah = res; 
-                            console.log(daerah.file_foto)
                             if(daerah.file_foto != '')
                                 $("div#imgcamat").html("<img src='data/images/"+ daerah.file_foto +"' alt='Foto Kecamatan' class='img-responsive'/>");
                             else
@@ -249,13 +248,8 @@ var pekanbaru = L.geoJson(null, {
 						$("#feature-title").html(feature.properties.Kelurahan);
 						//timpa keterangan dengan content kita
 						$("#feature-info").html(content);
-						$("input#form_id_tps").val(lat + " # " + lng);
-						$("input#form_id_kec").val(feature.properties.Kecamatan)
-						$("input#form_id_kel").val(feature.properties.Kelurahan)
-						$("#span_id_tps").html(lat + " , " + lng);
-						$("#span_id_kec").html(feature.properties.Kecamatan)
-						$("#span_id_kel").html(feature.properties.Kelurahan)
-                        
+                        $("#form_id_kec").val(kecamatanID[feature.properties.Kecamatan]);
+						$("#span_id_kec").html(feature.properties.Kecamatan);
 						//tampilkan
 						$("#featureModal").modal("show");
 

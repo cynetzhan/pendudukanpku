@@ -67,4 +67,17 @@ class Keluhan_model extends BF_Model
     {
         parent::__construct();
     }
+    
+    public function find_all_joined(){
+     $this->db->select('bf_keluhan.*,bf_users.username,bf_users.display_name,bf_kecamatan.nama_kecamatan');
+     $this->db->where("bf_keluhan.id_user = bf_users.id and bf_keluhan.id_kecamatan = bf_kecamatan.id_kecamatan");
+     return $this->db->get('bf_keluhan, bf_users, bf_kecamatan')->result();
+    }
+    
+    public function find_joined($id){
+     $this->db->select('bf_keluhan.*,bf_users.username,bf_users.display_name,bf_kecamatan.nama_kecamatan');
+     $this->db->where("bf_keluhan.id_user = bf_users.id and bf_keluhan.id_kecamatan = bf_kecamatan.id_kecamatan");
+     $this->db->where("bf_keluhan.id_keluhan",$id);
+     return $this->db->get('bf_keluhan, bf_users, bf_kecamatan')->row();
+    }
 }

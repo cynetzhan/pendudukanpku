@@ -1,5 +1,6 @@
 <?php
-
+Assets::add_js('js/tinymce/tinymce.min.js');
+Assets::add_js("tinymce.init({selector:'textarea#isi_artikel'});", 'inline');
 if (validation_errors()) :
 ?>
 <div class='alert alert-block alert-error fade in'>
@@ -32,7 +33,7 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
             <div class="form-group<?php echo form_error('tgl_terbit_artikel') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('artikel_field_tgl_terbit_artikel'), 'tgl_terbit_artikel', array('class' => 'control-label col-sm-4')); ?>
                 <div class='controls col-sm-8'>
-                    <input id='tgl_terbit_artikel' type='text' name='tgl_terbit_artikel' maxlength='30' class="form-control" value="<?php echo set_value('tgl_terbit_artikel', isset($artikel->tgl_terbit_artikel) ? $artikel->tgl_terbit_artikel : ''); ?>" />
+                    <input id='tgl_terbit_artikel' type='date' name='tgl_terbit_artikel' maxlength='30' class="form-control" value="<?php echo set_value('tgl_terbit_artikel', isset($artikel->tgl_terbit_artikel) ? $artikel->tgl_terbit_artikel : date('Y-m-d')); ?>" />
                     <span class='help-inline'><?php echo form_error('tgl_terbit_artikel'); ?></span>
                 </div>
             </div>
@@ -40,7 +41,7 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
             <div class="form-group<?php echo form_error('isi_artikel') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('artikel_field_isi_artikel'), 'isi_artikel', array('class' => 'control-label col-sm-4')); ?>
                 <div class='controls col-sm-8'>
-                    <?php echo form_textarea(array('name' => 'isi_artikel', 'class'=>'form-control','id' => 'isi_artikel', 'rows' => '5', 'cols' => '80', 'value' => set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : ''))); ?>
+                    <?php echo form_textarea(array('name' => 'isi_artikel', 'class'=>'form-control','id' => 'isi_artikel', 'rows' => '8', 'cols' => '80', 'value' => set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : ''))); ?>
                     <span class='help-inline'><?php echo form_error('isi_artikel'); ?></span>
                 </div>
             </div>
@@ -48,7 +49,11 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
             <div class="form-group<?php echo form_error('kategori_artikel') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('artikel_field_kategori_artikel'), 'kategori_artikel', array('class' => 'control-label col-sm-4')); ?>
                 <div class='controls col-sm-8'>
-                    <input id='kategori_artikel' type='text' name='kategori_artikel' maxlength='15' class="form-control" value="<?php echo set_value('kategori_artikel', isset($artikel->kategori_artikel) ? $artikel->kategori_artikel : ''); ?>" />
+                    <select name="kategori_artikel" class="form-control">
+                     <option value="Profil" <?= (set_value('kategori_artikel') == "Profil") ? "selected" : ''; ?>>Profil</option>
+                     <option value="Publik" <?= (set_value('kategori_artikel') == "Publik")? "selected" : ''; ?>>Berita & Informasi Publik</option>
+                     <option value="Pengumuman" <?= (set_value('kategori_artikel') == "Pengumuman") ? "selected" : ''; ?>>Pengumuman</option>
+                    </select>
                     <span class='help-inline'><?php echo form_error('kategori_artikel'); ?></span>
                 </div>
             </div>

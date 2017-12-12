@@ -64,7 +64,7 @@ class Reports extends Admin_Controller
         
         
         
-        $records = $this->keluhan_model->find_all();
+        $records = $this->keluhan_model->find_all_joined();
 
         Template::set('records', $records);
         

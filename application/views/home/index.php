@@ -1,6 +1,7 @@
 <script>
 var dataSkorCamat = <?= json_encode($sarana) ?>;
 var kecamatanColors = <?= json_encode($warna) ?>;
+var kecamatanID = <?= json_encode($kecamatan) ?>;
 var barChartData = {
 	labels: <?= json_encode(array_keys($sarana)) ?>,
 	datasets: [{
@@ -14,16 +15,16 @@ var barChartData = {
 };
 </script>
 <div class="container-fluid">
- <div class="jumbotron text-center" style="background-color:#ddd;background-image:url('themes/default/images/panorama-pekanbaru.jpg');background-size:cover;background-position-y:-50px;">
   <div class="row">
-  <div class="col-sm-12" style="background-color:rgba(0,0,0,.5);color:#fff;padding:20px">
+  <div class="banner" style="background-color:#ddd;background-image:url('themes/default/images/panorama-pekanbaru.jpg');background-size:cover;background-position-y:-50px;">
+   <div class="text-center" style="background-color:rgba(0,0,0,.5);color:#fff;padding:20px;min-height:50vh">
+   <img src="<?= base_url('assets/images/pulgo.png') ?>" alt="logo dinas PUPR" />
    <h3>Selamat Datang di Sistem Informasi</h3>
    <h4>Pemetaan Potensi Daerah Pengembangan Kawasan Pemukiman Layak Huni</h4>
    <p class="lead"><strong>Dinas Pekerjaan Umum Pekanbaru</strong></p>
-   <a href="<?= base_url('home/peta') ?>" class="btn btn-primary"><span class="fa fa-map"></span> Buka Peta Informasi</a>
+   </div>
   </div>
   </div>
- </div>
 </div>
 <div class="container-fluid">
  <div class="row">
@@ -96,62 +97,46 @@ var barChartData = {
             <div class="tab-content" id="featureContent">
              <div class="tab-pane fade active in" id="feature-info"></div>
              <div class="tab-pane fade in" id="form-aduan">
+             <?php 
+             if($this->auth->is_logged_in()) { 
+             $user = $this->auth->user();
+             ?>
              <br>
               <?php echo form_open_multipart(base_url('home/aksi_lapor'),'name="formaduan" class="form-horizontal"'); ?>
                <div class="form-group row">
-                <label class="control-label col-sm-4" >Nama Anda<br><small style="color:red"><em>(*)</em></small></label>
-                <div class="col-sm-8">
-                 <input type='text' class="form-control" name="nama_pe_laporanmas" maxlength="25" value="">
-                </div>
-               </div>
-               <div class="form-group row">
-                <label class="control-label col-sm-4" >Nomor Telepon<br><small style="color:red"><em>(*)</em></small></label>
-                <div class="col-sm-8">
-                 <input type='text' class="form-control" name="notel_laporanmas" maxlength="15" value="">
-                </div>
-               </div>
-               <div class="form-group row">
-                <label class="control-label col-sm-4" >Alamat E-mail<br><small style="color:red"></small></label>
-                <div class="col-sm-8">
-                 <input type='text' class="form-control" name="email_laporanmas" maxlength="35" value="">
+                <label class="control-label col-sm-4" >Nama Pelapor<br><small style="color:red"></small></label>
+                <div class="col-sm-8" style="padding-top:7px">
+                 <?= $user->display_name ?>
+                 <input type='hidden' class="form-control" name="id_user" value="<?= $user->id ?>">
                 </div>
                </div>
                <div class="form-group row">
                 <label class="control-label col-sm-4" >Keluhan/Laporan<br><small style="color:red"><em>(*)</em></small></label>
-                <div class="col-sm-8">
-                 <textarea class="form-control" name="isi_laporanmas"></textarea>
+                <div class="col-sm-8" style="padding-top:7px">
+                 <textarea class="form-control" name="isi_keluhan"></textarea>
                 </div>
                </div>
-               <div class="form-group row">
-                <label class="control-label col-sm-4" >Lokasi TPS</label>
-                <div class="col-sm-8">
-                 <input type='hidden' class="form-control" name="id_tps" id="form_id_tps" /><span id="span_id_tps"></span>
-                </div>
-               </div>
+               
                <div class="form-group row">
                 <label class="control-label col-sm-4" >Kecamatan</label>
-                <div class="col-sm-8">
-                 <input type='hidden' class="form-control" name="kecamatan_laporanmas" id="form_id_kec" value="" /><span id="span_id_kec"></span>
+                <div class="col-sm-8" style="padding-top:7px">
+                 <input type='hidden' class="form-control" name="id_kecamatan" id="form_id_kec" value="" /><span id="span_id_kec"></span>
                 </div>
                </div>
-               <div class="form-group row">
-                <label class="control-label col-sm-4" >Kelurahan</label>
-                <div class="col-sm-8">
-                 <input type='hidden' class="form-control" name="kelurahan_laporanmas" id="form_id_kel" value="" /><span id="span_id_kel"></span>
-                </div>
-               </div>
-               <div class="form-group row">
-                <label class="control-label col-sm-4" >Foto Bukti<br></label>
-                <div class="col-sm-8">
-                 <input type='file' class="form-control" name="foto_laporanmas" />
-                </div>
-               </div>
+
                <div class="form-group row">
                 <div class="col-sm-offset-8 col-sm-4">
                  <button type="submit" class="btn btn-primary"  name="submit" style="float:right">Kirim Laporan</button>
                 </div>
                </div>
               </form>
+             <?php } else { ?>
+              
+              <p class="text-center">
+              <span class="fa fa-sign-in" style="font-size:6em;margin:20px;color:#aaa"></span><br>
+               <strong>Sebelum melaporkan, mohon <a href="<?php echo site_url(REGISTER_URL); ?>">mendaftar</a> terlebih dahulu atau <a href="<?php echo site_url(LOGIN_URL); ?>">masuk</a></strong>
+              </p>
+             <?php } ?>
              </div>
             </div>
           </div>

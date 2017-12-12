@@ -29,7 +29,10 @@ if (empty($renderPayload) && isset($this->auth)) {
 }
 
 ?>
-<section id="profile">
+<section id="profile" style="margin-top:70px">
+<div class="container">
+ <div class="row">
+  <div class="col-sm-12">
     <h1 class="page-header"><?php echo lang('us_edit_profile'); ?></h1>
     <?php if (validation_errors()) : ?>
     <div class="alert alert-error">
@@ -51,8 +54,11 @@ if (empty($renderPayload) && isset($this->auth)) {
         }
         ?>
     </div>
-    <div class="row-fluid">
-        <div class="span12">
+   </div>
+   </div>
+    
+    <div class="row-fluid row">
+        <div class="span12 col-sm-12">
             <?php echo form_open($this->uri->uri_string(), array('class' => 'form-horizontal', 'autocomplete' => 'off')); ?>
                 <fieldset>
                     <?php Template::block('user_fields', 'user_fields', $fieldData); ?>
@@ -72,5 +78,6 @@ if (empty($renderPayload) && isset($this->auth)) {
                 </fieldset>
             <?php echo form_close(); ?>
         </div>
+    </div>
     </div>
 </section>

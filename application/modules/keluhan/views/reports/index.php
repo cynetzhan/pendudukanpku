@@ -21,8 +21,9 @@ if ($can_delete) {
 					<th class='column-check'><input class='check-all' type='checkbox' /></th>
 					<?php endif;?>
 					
-					<th><?php echo lang('keluhan_field_email_keluhan'); ?></th>
-					<th><?php echo lang('keluhan_field_id_kecamatan'); ?></th>
+					<th>Pelapor</th>
+     <th>Waktu Lapor</th>
+					<th>Kecamatan</th>
 					<th><?php echo lang('keluhan_field_isi_keluhan'); ?></th>
 				</tr>
 			</thead>
@@ -49,11 +50,12 @@ if ($can_delete) {
 					<?php endif;?>
 					
 				<?php if ($can_edit) : ?>
-					<td><?php echo anchor(SITE_AREA . '/reports/keluhan/edit/' . $record->id_keluhan, '<span class="icon-pencil"></span> ' .  $record->email_keluhan); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/reports/keluhan/edit/' . $record->id_keluhan, '<span class="icon-pencil"></span> ' .  $record->display_name." (".$record->username.")"); ?></td>
 				<?php else : ?>
-					<td><?php e($record->email_keluhan); ?></td>
+					<td><?php e($record->display_name." (".$record->username.")"); ?></td>
 				<?php endif; ?>
-					<td><?php e($record->id_kecamatan); ?></td>
+					<td><?php e(tanggal($record->waktu_lapor,true)); ?></td>
+     <td><?php e($record->nama_kecamatan); ?></td>
 					<td><?php e($record->isi_keluhan); ?></td>
 				</tr>
 				<?php

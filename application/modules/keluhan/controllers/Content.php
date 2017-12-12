@@ -64,7 +64,7 @@ class Content extends Admin_Controller
         
         
         
-        $records = $this->keluhan_model->find_all();
+        $records = $this->keluhan_model->find_all_joined();
 
         Template::set('records', $records);
         
@@ -142,8 +142,8 @@ class Content extends Admin_Controller
 
             Template::set_message(lang('keluhan_delete_failure') . $this->keluhan_model->error, 'error');
         }
-        
-        Template::set('keluhan', $this->keluhan_model->find($id));
+        Template::set('kecamatan',$this->kecamatan_model->find_all());
+        Template::set('keluhan', $this->keluhan_model->find_joined($id));
 
         Template::set('toolbar_title', lang('keluhan_edit_heading'));
         Template::render();

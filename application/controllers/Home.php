@@ -68,7 +68,7 @@ class Home extends MX_Controller
   Assets::add_css(array('leaflet.css','MarkerCluster.css','MarkerCluster.Default.css','L.Control.Locate.css','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css','app.css'));
   Assets::add_js(array('Chart.min.js','typeahead.bundle.min.js','handlebars.min.js','list.min.js','leaflet.js','leaflet.markercluster.js','L.Control.Locate.min.js','leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js','app.js')); 
   
-  $this->load->model('sarana/sarana_model');
+  $this->load->model(array('sarana/sarana_model','kecamatan/kecamatan_model'));
   $records = $this->sarana_model->find_all_joined();
   $sarana=array();
   $warna=array();
@@ -83,9 +83,14 @@ class Home extends MX_Controller
    $warna[$record->nama_kecamatan] = $record->warna_peta;
    $sarana[$record->nama_kecamatan] = $hasilBobot;
   }
+  $camat = array();
+  foreach($this->kecamatan_model->find_all() as $cmt){
+   $camat[$cmt->nama_kecamatan] = $cmt->id_kecamatan;
+  }
   Assets::add_js("var ctx=document.getElementById('chartaja').getContext('2d');window.myBar=new Chart(ctx,{type:'bar',data:barChartData,options:{responsive:true,legend:{display:false,position:'top',},title:{display:true,text:'Kondisi Sarana'}}});", 'inline');
   Template::set('sarana',$sarana);
   Template::set('warna', $warna);
+  Template::set('kecamatan', $camat);
 		Template::render();
 	}//end index()
  
@@ -114,6 +119,27 @@ class Home extends MX_Controller
   $this->load->model('kecamatan/kecamatan_model');
   $hasil = $this->kecamatan_model->find_by('nama_kecamatan',$nama);
   echo json_encode($hasil);
+ }
+ 
+ public function aksi_lapor(){
+  $this->load->library('users/auth');
+		$this->set_current_user();
+  $this->load->model('keluhan/keluhan_model');
+  $data = $this->keluhan_model->prep_data($this->input->post());
+  $data['waktu_lapor'] = date('Y-m-d H:i:s');
+  if($this->keluhan_model->insert($data)){
+   $this->load->model('kecamatan/kecamatan_model');
+   Template::set('success',true);
+   //Template::set('datalapor',$data);
+   Template::set('camat',$this->kecamatan_model->find($data['id_kecamatan']));
+   Template::set('judul','Laporan Telah Diterima!');
+  } else {
+   Template::set('success',false);
+   Template::set('judul','Gagal Mengirim Laporan! '.$this->keluhan_model->error);
+  }
+  Template::set_view('home/submitkeluhan');
+  Template::render();
+  //echo var_dump($data);
  }
  
 

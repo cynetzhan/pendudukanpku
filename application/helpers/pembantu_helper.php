@@ -84,6 +84,7 @@ function ketHasil($hasil){
 function tanggal($dt,$with_timestamp=false){
  //format harus yyyy-mm-dd
  $bulan=array(
+  "00" => "N/A",
   "01" => "Januari",
   "02" => "Februari",
   "12" => "Desember",

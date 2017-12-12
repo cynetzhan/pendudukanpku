@@ -3,11 +3,12 @@
 Assets::add_css(array(
     'bootstrap.css',
     'bootflat.min.css',
+    'jqueryui/jquery-ui.min.css','jqueryui/jquery-ui.structure.min.css','jqueryui/jquery-ui.theme.min.css'
 ));
-
-if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])) {
-    Assets::add_js($this->load->view('ui/shortcut_keys', $shortcut_data, true), 'inline');
-}
+Assets::add_js(array(
+ 'jquery.min.js',
+ 'bootstrap.min.js',
+ 'jqueryui/jquery-ui.min.js'));
 
 ?>
 <!doctype html>
