@@ -20,7 +20,7 @@
               <?php } ?>
              </ul>
             </li>
-            <li><a href="<?= base_url('home/gis') ?>" >Peta Sarana</a></li>
+            <li><a href="<?= base_url('home/artikel') ?>" >Informasi Publik</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
            <?php if (empty($current_user)) : ?>

@@ -23,7 +23,6 @@ if ($can_delete) {
 					
 					<th><?php echo lang('artikel_field_judul_artikel'); ?></th>
 					<th><?php echo lang('artikel_field_tgl_terbit_artikel'); ?></th>
-					<th><?php echo lang('artikel_field_isi_artikel'); ?></th>
 					<th><?php echo lang('artikel_field_kategori_artikel'); ?></th>
 				</tr>
 			</thead>
@@ -55,7 +54,6 @@ if ($can_delete) {
 					<td><?php e($record->judul_artikel); ?></td>
 				<?php endif; ?>
 					<td><?php e($record->tgl_terbit_artikel); ?></td>
-					<td><?php e($record->isi_artikel); ?></td>
 					<td><?php e($record->kategori_artikel); ?></td>
 				</tr>
 				<?php

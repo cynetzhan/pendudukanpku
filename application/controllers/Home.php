@@ -114,6 +114,24 @@ class Home extends MX_Controller
   Template::render();
  }
  
+ public function artikel(){
+  $this->load->library('users/auth');
+  $this->set_current_user();
+  $this->load->model('artikel/artikel_model');
+  if($this->input->post('cari') !== null){
+   $this->artikel_model->where('kategori_artikel != "Profil"');
+   $this->artikel_model->like('judul_artikel',$this->input->post('query'));
+   $prolist=$this->artikel_model->find_all();
+  } else {
+   $prolist=$this->artikel_model->find_all_by('kategori_artikel != "Profil"');
+  }
+  //Assets::js(array('jquery.min.js','bootstrap.min.js'));
+  
+  //echo var_dump($prolist);
+  Template::set('artikel',$prolist);
+  Template::render();
+ }
+ 
  public function apicamat(){
   $nama = $this->input->get('kecamatan');
   $this->load->model('kecamatan/kecamatan_model');

@@ -1,3 +1,4 @@
+<div class="container" style="margin:70px auto;min-height:90vh">
  <div class="row">
   <div class="col-md-8">
   <ol class="breadcrumb">
@@ -6,6 +7,7 @@
   </ol>
   <h2><?= $profil->judul_artikel ?></h2>
   <p><small>Ditulis pada <?= tanggal($profil->tgl_terbit_artikel,true) ?></small></p>
+  <p><img src="<?= base_url('data/images/'.$profil->foto_informasi) ?>" class="img img-responsive" /></p>
       <?= $profil->isi_artikel ?>
   </div>
   <div class="col-md-4">
@@ -17,3 +19,4 @@
   </ul>
   </div>
  </div>
+</div>

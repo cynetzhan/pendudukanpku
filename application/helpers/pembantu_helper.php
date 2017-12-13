@@ -81,6 +81,13 @@ function ketHasil($hasil){
  return $ret;
 }
 
+function text_preview($text, $limit){
+ $raw = explode('. ',strip_tags($text,"<p><a>"),$limit+1);
+ unset($raw[$limit]);
+ $join = implode('. ',$raw);
+ return $join;
+}
+
 function tanggal($dt,$with_timestamp=false){
  //format harus yyyy-mm-dd
  $bulan=array(

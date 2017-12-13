@@ -18,7 +18,7 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
 ?>
 <div class='admin-box'>
     <h3>Artikel</h3>
-    <?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
+    <?php echo form_open_multipart($this->uri->uri_string(), 'class="form-horizontal"'); ?>
         <fieldset>
             
 
@@ -41,7 +41,9 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
             <div class="form-group<?php echo form_error('isi_artikel') ? ' error' : ''; ?>">
                 <?php echo form_label(lang('artikel_field_isi_artikel'), 'isi_artikel', array('class' => 'control-label col-sm-4')); ?>
                 <div class='controls col-sm-8'>
-                    <?php echo form_textarea(array('name' => 'isi_artikel', 'class'=>'form-control','id' => 'isi_artikel', 'rows' => '8', 'cols' => '80', 'value' => set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : ''))); ?>
+                    <textarea name="isi_artikel" class="form-control" id="isi_artikel" rows="8">
+                    <?= set_value('isi_artikel', isset($artikel->isi_artikel) ? $artikel->isi_artikel : '') ?>
+                    </textarea>
                     <span class='help-inline'><?php echo form_error('isi_artikel'); ?></span>
                 </div>
             </div>
@@ -55,6 +57,14 @@ $id = isset($artikel->id_artikel) ? $artikel->id_artikel : '';
                      <option value="Pengumuman" <?= (set_value('kategori_artikel') == "Pengumuman") ? "selected" : ''; ?>>Pengumuman</option>
                     </select>
                     <span class='help-inline'><?php echo form_error('kategori_artikel'); ?></span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <?php echo form_label('Foto Informasi', 'images', array('class' => 'control-label col-sm-4')); ?>
+                <div class='controls col-sm-8'>
+                    <input type="hidden" name="foto_informasi" value=""/>
+                    <input id='images' type='file' name='images' class="form-control"/>
                 </div>
             </div>
         </fieldset>

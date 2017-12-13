@@ -1,4 +1,4 @@
-var map, featureList, tpsSearch = [], ruteSearch = [], pekanbaruSearch = [];
+var map, featureList, camatSearch = [], ruteSearch = [], pekanbaruSearch = [];
 
 $(window).resize(function () {
 	sizeLayerControl();
@@ -72,9 +72,10 @@ function clearHighlight() {
 }
 
 function sidebarClick(id) {
-	var layer = markerClusters.getLayer(id);
-	map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
+	var layer = camatkita.getLayer(id);
+	map.setView([layer.getBounds().getCenter().lat, layer.getBounds().getCenter().lng], 14);
 	layer.fire("click");
+    layer.openPopup();
 	/* Hide sidebar and go to the map on small screens */
 	if (document.body.clientWidth <= 767) {
 		$("#sidebar").hide();
@@ -84,15 +85,15 @@ function sidebarClick(id) {
 
 function syncSidebar() {
 	/* Empty sidebar features */
-	$("#feature-list tbody").empty();
-	/* Loop through theaters layer and add only features which are in the map bounds */
-	/*tps.eachLayer(function (layer) {
-		if (map.hasLayer(tpsLayer)) {
-			if (map.getBounds().contains(layer.getLatLng())) {
-				$("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="../assets/images/bin.png"></td><td class="feature-name">' + layer.feature.properties.nama + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+	/*$("#feature-list tbody").empty();
+	/* Loop through theaters layer and add only features which are in the map bounds 
+	camatkita.eachLayer(function (layer) {
+		if (map.hasLayer(camatGroup)) {
+			if (map.getBounds().contains(layer.getBounds().getCenter())) {
+				$("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getBounds().getCenter().lat + '" lng="' + layer.getBounds().getCenter().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="../assets/images/marker-icon.png"></td><td class="feature-name">' + layer.feature.properties.Kecamatan + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
 			}
 		}
-	});*/
+	});
 	/* Update list.js featureList */
 	featureList = new List("features", {
 			valueNames: ["feature-name"]
@@ -214,6 +215,12 @@ function style_kelurahan(feature) {
 		fillColor: kecamatanColors[feature.properties['Kecamatan']]
 	};
 }
+var markerClusters = new L.MarkerClusterGroup({
+		spiderfyOnMaxZoom: true,
+		showCoverageOnHover: false,
+		zoomToBoundsOnClick: true,
+		disableClusteringAtZoom: 16
+	});
 var daerah = ''
 var pekanbaru = L.geoJson(null, {
 		style: style_kelurahan,
@@ -265,37 +272,48 @@ $.getJSON("../data/kelurahan.php", function (data) {
 camatGroup = L.layerGroup();
 camatkita = L.geoJson(null, {
 		onEachFeature: function (feature, layer) {
-			L.marker(layer.getBounds().getCenter(), styleSkorCamat[ketCamat(dataSkorCamat[feature.properties.Kecamatan].hasil)]).bindPopup("<strong>"+feature.properties.Kecamatan+"</strong><br>Skor: "+dataSkorCamat[feature.properties.Kecamatan].hasil+"").addTo(camatGroup);
+			tengah = layer.getBounds().getCenter();
+            L.marker(layer.getBounds().getCenter(), styleSkorCamat[ketCamat(dataSkorCamat[feature.properties.Kecamatan].hasil)]).bindPopup("<strong>"+feature.properties.Kecamatan+"</strong><br>Skor: "+dataSkorCamat[feature.properties.Kecamatan].hasil+"").addTo(camatGroup);
+            $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + tengah.lat + '" lng="' + tengah.lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="../assets/images/marker-icon.png"></td><td class="feature-name">' + feature.properties.Kecamatan + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
+				camatSearch.push({
+					name: feature.properties.Kecamatan,
+					address: feature.properties.Kecamatan,
+					source: "Kecamatan",
+					id: L.stamp(layer),
+					lat: tengah.lat,
+					lng: tengah.lng
+				});
         }
 });
 $.getJSON("../data/kecamatan.php", function(data) {
     camatkita.addData(data);
+    map.addLayer(camatGroup);
 });
 
 
 map = L.map("map", {
 		zoom: 12,
 		center: [0.555, 101.38],
-		layers: [osm, pekanbaru, camatGroup],
+		layers: [osm, pekanbaru, markerClusters],
 		zoomControl: false,
 		attributionControl: false
 	});
 
-/* Layer control listeners that allow for a single markerClusters layer
+/*Layer control listeners that allow for a single markerClusters layer*/
 map.on("overlayadd", function (e) {
-	if (e.layer === tpsLayer) {
-		markerClusters.addLayer(tps);
+	if (e.layer === camatGroup) {
+		markerClusters.addLayer(camatGroup);
 		syncSidebar();
 	}
 });
 
 map.on("overlayremove", function (e) {
-	if (e.layer === tpsLayer) {
-		markerClusters.removeLayer(tps);
+	if (e.layer === camatGroup) {
+		markerClusters.removeLayer(camatGroup);
 		syncSidebar();
 	}
 });
-*/
+
 /* Filter sidebar feature list to only show features in current map bounds */
 map.on("moveend", function (e) {
 	syncSidebar();
@@ -386,7 +404,7 @@ var groupedOverlays = {
 		"<img src='../assets/images/bin.png' width='24' height='28'>&nbsp;TPS": tpsLayer
 	},*/
 	"Referensi": {
-		"Kelurahan": pekanbaru
+		"Kecamatan": pekanbaru,
 	}
 };
 
@@ -421,7 +439,16 @@ $(document).one("ajaxStop", function () {
 	featureList.sort("feature-name", {
 		order: "asc"
 	});
-
+    
+    var camatBH = new Bloodhound({
+			name: "Kecamatan",
+			datumTokenizer: function (d) {
+				return Bloodhound.tokenizers.whitespace(d.name);
+			},
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: camatSearch,
+			limit: 10
+		});
 	var geonamesBH = new Bloodhound({
 			name: "GeoNames",
 			datumTokenizer: function (d) {
@@ -453,12 +480,20 @@ $(document).one("ajaxStop", function () {
 			limit: 10
 		});
 	geonamesBH.initialize();
-
+    camatBH.initialize();
 	/* instantiate the typeahead UI */
 	$("#searchbox").typeahead({
 		minLength: 3,
 		highlight: true,
 		hint: false
+	}, {
+		name: "Kecamatan",
+		displayKey: "name",
+		source: camatBH.ttAdapter(),
+		templates: {
+			header: "<h4 class='typeahead-header'><img src='../assets/images/marker-icon.png' width='24' height='28'>&nbsp;Kecamatan</h4>",
+			suggestion: Handlebars.compile(["{{name}}<br>&nbsp;<small>{{address}}</small>"].join(""))
+		}
 	}, {
 		name: "GeoNames",
 		displayKey: "name",
@@ -467,7 +502,15 @@ $(document).one("ajaxStop", function () {
 			header: "<h4 class='typeahead-header'><img src='../assets/img/globe.png' width='25' height='25'>&nbsp;GeoNames</h4>"
 		}
 	}).on("typeahead:selected", function (obj, datum) {
-		
+		if (datum.source === "Kecamatan") {
+			if (!map.hasLayer(camatGroup)) {
+				map.addLayer(camatGroup);
+			}
+			map.setView([datum.lat, datum.lng], 17);
+			if (map._layers[datum.id]) {
+				map._layers[datum.id].fire("click");
+			}
+		}
 		if (datum.source === "GeoNames") {
 			map.setView([datum.lat, datum.lng], 14);
 		}
