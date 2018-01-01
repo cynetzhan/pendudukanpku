@@ -292,3 +292,9 @@ $config['commonmark.valid_drivers'] = array(
 // /application/libraries/CommonMark/drivers/ (capitalization is important on most
 // servers). The file name for the driver must be CommonMark_{drivername}.php
 $config['commonmark.driver'] = 'MarkdownExtended';
+
+//PHPMailer config
+$config['mail.username'] = ''; // isi dengan username akun email
+$config['mail.password'] = ''; // isi dengan password untuk akses akun email
+$config['mail.set_from_address'] = ''; // isi dengan alamat pengirim yang akan ditampilkan pada seluruh email 
+$config['mail.display_name'] = 'Dinas PU Pekanbaru'; // isi dengan nama pengirim 

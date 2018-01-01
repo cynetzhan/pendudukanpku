@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed');
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Bonfire
@@ -132,7 +133,8 @@ class Emailer
         $attachments = isset($data['attachments']) ? $data['attachments'] : false;
 
         // Wrap the $message in the email template, or strip HTML.
-        $mailtype  = settings_item('mailtype');
+        //$mailtype  = settings_item('mailtype');
+        $mailtype  = 'html';
         $templated = '';
         if ($mailtype == 'html') {
             $templated  = $this->ci->load->view('emailer/email/_header', null, true);
@@ -150,7 +152,7 @@ class Emailer
         }
 
         // Otherwise, send it.
-        return $this->sendEmail($to, $from, $subject, $templated, $altMessage, $attachments);
+        return $this->sendEmailPM($to, $from, $subject, $templated, $altMessage, $attachments);
     }
 
     /**
@@ -255,6 +257,33 @@ class Emailer
         }
 
         return $result;
+    }
+    
+    private function sendEmailPM($to, $from, $subject, $message, $altMessage = false, $attachments = false){
+     $mailib = new PHPMailer;
+     $mailib->isSMTP();
+     $mailib->SMTPDebug = 0;
+     $mailib->Debugoutput = 'html';
+     $mailib->SMTPOptions = array(
+       'ssl' => array(
+         'verify_peer' => false,
+         'verify_peer_name' => false,
+         'allow_self_signed' => true
+        )
+     );
+     $mailib->Host = 'smtp.gmail.com';
+     $mailib->Port = 587;
+     $mailib->SMTPSecure = 'tls';
+     $mailib->SMTPAuth = true;
+     $mailib->Username = $this->ci->config->item('mail.username');
+     $mailib->Password = $this->ci->config->item('mail.password');
+     $mailib->setFrom($from, $this->ci->config->item('mail.display_name'));
+     $mailib->addAddress($to);
+     $mailib->Subject = $subject;
+     $mailib->msgHTML($message);
+     $mailib->AltBody = $altMessage?$altMessage:'';
+     $result = $mailib->send();
+     return $result;
     }
 
     /**

@@ -1,7 +1,9 @@
-<p>So, you forgot your <?php e($this->settings_lib->item('site.title')) ?> password, eh? No worries!</p>
+<p>Kami mendapatkan permintaan untuk mengatur ulang password akun Anda. Jika memang Anda yang meminta hal ini, silahkan klik link dibawah ini. </p>
 
-<p>Below you will find a link that you can use to reset your password for <?php e($this->settings_lib->item('site.title')) ?>. Then, you can change your password to something different (because we are sure your temp password isn't going to be easy to remember...)</p>
-
-<p>This link is only valid for 24 hours.</p>
+<p>Link dibawah hanya berlaku hingga 24 jam setelah pesan ini diterima. </p>
 
 <p><a href="<?php echo $link ?>"><?php echo $link ?></a></p>
+
+<p>Jika Anda tidak meminta hal ini, silahkan abaikan pesan ini. </p>
+
+<p>Terima Kasih</p>

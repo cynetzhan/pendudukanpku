@@ -11,6 +11,7 @@
  .footerText { font-size:10px; color:#996600; line-height:100%; font-family:verdana; }
  a { color:#FF6600; color:#FF6600; color:#FF6600; }
 </style>
+<h2>Sistem GIS Dinas PU Pekanbaru</h2>
 <table width="100%" cellpadding="10" cellspacing="0" class="backgroundTable">
     <tr>
         <td valign="top" align="center">

@@ -1,5 +1,5 @@
-<p>Thank you for registering on the <?php e($title) ?> web site</p>
+<p>Terima Kasih telah mendaftar pada situs <?php e($title) ?></p>
 
-<p>Your membership is under review by the site administrator and, if approved, you will be notified by email and then able to log in and begin using the site.</p>
+<p>Keanggotaan Anda menunggu persetujuan dari Administrator Situs. Kami akan mengabari Anda kembali apabila keanggotaan Anda telah disetujui. </p>
 
-Thank you.
+<p>Terima Kasih</p>
