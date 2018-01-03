@@ -81,6 +81,12 @@ function ketHasil($hasil){
  return $ret;
 }
 
+/*
+ text_preview($text, $limit)
+ Parameter:
+  - $text (String)    : Teks untuk dipotong
+  - $limit (Integer)  : Batas kalimat yang akan dikembalikan
+*/
 function text_preview($text, $limit){
  $raw = explode('. ',strip_tags($text,"<p><a>"),$limit+1);
  unset($raw[$limit]);

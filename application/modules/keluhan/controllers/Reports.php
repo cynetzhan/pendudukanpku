@@ -147,6 +147,11 @@ class Reports extends Admin_Controller
         Template::set('toolbar_title', lang('keluhan_edit_heading'));
         Template::render();
     }
+    
+    public function lihat($id){
+     Template::set('keluhan', $this->keluhan_model->find_joined($id));
+     Template::render();
+    }
 
     //--------------------------------------------------------------------------
     // !PRIVATE METHODS

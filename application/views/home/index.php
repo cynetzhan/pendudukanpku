@@ -123,6 +123,13 @@ var barChartData = {
                  <input type='hidden' class="form-control" name="id_kecamatan" id="form_id_kec" value="" /><span id="span_id_kec"></span>
                 </div>
                </div>
+               
+               <div class="form-group row">
+                <label class="control-label col-sm-4" >Foto Pendukung</label>
+                <div class="col-sm-8" style="padding-top:7px">
+                 <input type='file' class="form-control" name="foto_pendukung" />
+                </div>
+               </div>
 
                <div class="form-group row">
                 <div class="col-sm-offset-8 col-sm-4">

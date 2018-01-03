@@ -40,19 +40,19 @@ class Keluhan_model extends BF_Model
 	// be updating a portion of the data.
 	protected $validation_rules 		= array(
 		array(
-			'field' => 'email_keluhan',
-			'label' => 'lang:keluhan_field_email_keluhan',
-			'rules' => 'max_length[40]',
+			'field' => 'id_user',
+			'label' => 'Pelapor',
+			'rules' => 'required|numeric',
 		),
 		array(
 			'field' => 'id_kecamatan',
 			'label' => 'lang:keluhan_field_id_kecamatan',
-			'rules' => 'required|max_length[11]',
+			'rules' => 'required|numeric',
 		),
 		array(
 			'field' => 'isi_keluhan',
 			'label' => 'lang:keluhan_field_isi_keluhan',
-			'rules' => 'required|max_length[255]',
+			'rules' => 'required',
 		),
 	);
 	protected $insert_validation_rules  = array();

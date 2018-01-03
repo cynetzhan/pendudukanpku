@@ -144,6 +144,26 @@ class Home extends MX_Controller
 		$this->set_current_user();
   $this->load->model('keluhan/keluhan_model');
   $data = $this->keluhan_model->prep_data($this->input->post());
+  $config['upload_path']   = 'data/images/';
+  $config['allowed_types'] = 'gif|jpg|png|jpeg';
+  $config['max_size']      = 10240;
+  $config['file_name']     = "L".$data['id_user']."-".date('ymdhis');
+  $this->load->library('upload', $config);
+  if($this->upload->data() != null){
+   if ( ! $this->upload->do_upload('foto_pendukung') && ! $this->upload->data('is_image') ){
+     $error = array('error' => $this->upload->display_errors());
+     if($error['error'] == "You did not select a file to upload."){
+      $this->flashMsg($this->upload->display_errors(),"","");
+      //echo $this->upload->display_errors();
+     }
+     
+   } else {
+     $data['foto_pendukung'] = $this->upload->data('file_name');
+   }
+  } else {
+   $data['foto_pendukung'] = '';
+  }
+  
   $data['waktu_lapor'] = date('Y-m-d H:i:s');
   if($this->keluhan_model->insert($data)){
    $this->load->model('kecamatan/kecamatan_model');
@@ -157,7 +177,9 @@ class Home extends MX_Controller
   }
   Template::set_view('home/submitkeluhan');
   Template::render();
-  //echo var_dump($data);
+  // echo var_dump($data);
+  // echo var_dump($this->keluhan_model->insert($data));
+  // echo var_dump($this->db->error());
  }
  
 

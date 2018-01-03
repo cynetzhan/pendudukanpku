@@ -52,11 +52,11 @@ if ($can_delete) {
 				<?php if ($can_edit) : ?>
 					<td><?php echo anchor(SITE_AREA . '/reports/keluhan/edit/' . $record->id_keluhan, '<span class="icon-pencil"></span> ' .  $record->display_name." (".$record->username.")"); ?></td>
 				<?php else : ?>
-					<td><?php e($record->display_name." (".$record->username.")"); ?></td>
+					<td><a href="<?= base_url('admin/reports/keluhan/lihat/'.$record->id_keluhan) ?>"><?php e($record->display_name." (".$record->username.")"); ?></a></td>
 				<?php endif; ?>
 					<td><?php e(tanggal($record->waktu_lapor,true)); ?></td>
      <td><?php e($record->nama_kecamatan); ?></td>
-					<td><?php e($record->isi_keluhan); ?></td>
+					<td><?= text_preview($record->isi_keluhan, 3); ?></td>
 				</tr>
 				<?php
 					endforeach;
